@@ -1,5 +1,5 @@
 const Author = `
-  type Author {
+  type Author @cacheControl(maxAge: 60){
     id: ID!
     firstName: String
     lastName: String

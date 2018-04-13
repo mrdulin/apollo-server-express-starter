@@ -1,4 +1,5 @@
 const casual = require('casual');
+const { FortuneCookie } = require('./connectors');
 
 const fakeAuthor = { id: casual.uuid, firstName: casual.first_name, lastName: casual.last_name };
 
@@ -9,6 +10,10 @@ const resolvers = {
     },
     allAuthors() {
       return [fakeAuthor];
+    },
+    getFortuneCookie() {
+      // resolver可以在返回一个值，也可以返回一个promise
+      return FortuneCookie.getOne();
     }
   },
   Author: {
