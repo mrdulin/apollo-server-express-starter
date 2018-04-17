@@ -7,10 +7,10 @@ const MessengerConnector = require('./facebook/messenger/connector');
 
 const schema = require('./schema');
 
+const credential = require('./credential');
+
 const app = express();
-const ACCESS_TOKEN =
-  process.env.ACCESS_TOKEN ||
-  'DQVJ1YjV1M0d2b3VGalE2eF9QbDVnM094N3cwYnc1ZAk1DWEFhc2FHREZACeGlTZAloxSXRvdUlWU3BtZADZACc0hYNmxKbXo1ZATBpVjdISkNmSkFsZAllxVGhRckZABVlBGc2t3VklURzd2cnJpOE40cjR4T1hQaFI5ZAU03a3BkUmFSbnpUaE9oWXVvNlplSWxDSFpWNVdHVkR5YUlHSkY3UjN6bkZADQVhkTWoxdW1fWllzR19GRVlCdUNpSEwtT25RQ2pDc1NzT2RkSDJGVTJuV2ZAIbQZDZD';
+const ACCESS_TOKEN = process.env.ACCESS_TOKEN || credential.facebook.messenger.accessToken;
 
 app.use(
   '/graphql',
