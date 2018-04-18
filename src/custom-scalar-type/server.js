@@ -37,22 +37,39 @@ const resolvers = {
     books: () => books,
     bookByDate: (root, args, ctx) => books
   },
-  Date: new GraphQLScalarType({
-    name: 'Date',
-    description: 'Date custom scalar type',
-    parseValue(value) {
-      return new Date(value); // value from the client
+  // 方式一：
+  // Date: new GraphQLScalarType({
+  //   name: 'Date',
+  //   description: 'Date custom scalar type',
+  //   parseValue(value) {
+  //     return new Date(value); // value from the client
+  //   },
+  //   serialize(value) {
+  //     return value.getTime(); // value sent to the client
+  //   },
+  //   parseLiteral(ast) {
+  //     if (ast.kind === Kind.INT) {
+  //       return parseInt(ast.value, 10); // ast value is always in string format
+  //     }
+  //     return null;
+  //   }
+  // })
+
+  // 方式二：
+  Date: {
+    __parseValue(value) {
+      return new Date(value);
     },
-    serialize(value) {
-      return value.getTime(); // value sent to the client
+    __serialize(value) {
+      return value.getTime();
     },
-    parseLiteral(ast) {
+    __parseLiteral(ast) {
       if (ast.kind === Kind.INT) {
-        return parseInt(ast.value, 10); // ast value is always in string format
+        return parseInt(ast.value, 10);
       }
       return null;
     }
-  })
+  }
 };
 
 const schema = makeExecutableSchema({
