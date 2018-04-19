@@ -1,3 +1,5 @@
+const { GraphQLInterfaceType } = require('graphql');
+
 const fakeDb = {
   authors: [{ id: 1, name: 'lin' }, { id: 2, name: 'echo' }],
   posts: {
@@ -32,7 +34,7 @@ const resolvers = {
     // https://www.apollographql.com/docs/graphql-tools/resolvers.html#Default-resolver
     // 等价于
     name: author => {
-      console.log('author.name: ', author);
+      // console.log('author.name: ', author);
       return author.name;
     }
   },
@@ -42,6 +44,11 @@ const resolvers = {
     author: post => {
       console.log('Post.author: ', post);
       return fakeDb.authors.find(author => author.id === post.authorId);
+    }
+  },
+  Node: {
+    __resolveType: data => {
+      return data;
     }
   }
 };
