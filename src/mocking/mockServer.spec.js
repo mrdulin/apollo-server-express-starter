@@ -1,25 +1,12 @@
 const { mockServer, makeExecutableSchema } = require('graphql-tools');
 const { expect } = require('chai');
 
-const fakeDB = {
-  users: [{ id: '1', name: 'lin' }, { id: '2', name: 'echo' }]
-};
+const { schemaDefs } = require('./schema');
+const { fakeDB } = require('./db');
 
-const schemaDefs = `
-  type User {
-    id: ID!
-    name: String!
-  }
-
-  type Mutation{
-    updateUserName(id: ID!, name: String!): User
-  }
-
-  type Query {
-    allUsers: [User]
-    user(id: ID!): User
-  }
-`;
+const schema = makeExecutableSchema({
+  typeDefs: [schemaDefs]
+});
 
 const mocks = {
   Query: () => {
@@ -37,20 +24,15 @@ const mocks = {
       updateUserName: (source, { id, name }, context, info) => {
         const userFound = fakeDB.users.find(user => user.id === id);
         userFound.name = name;
-        console.log('fakeDB: ', fakeDB);
         return userFound;
       }
     };
   }
 };
 
-const schema = makeExecutableSchema({
-  typeDefs: [schemaDefs]
-});
-
 const mockserver = mockServer(schema, mocks);
 
-describe('mock server test suites', () => {
+describe('mockServer test suites', () => {
   it('should get users correctly', () => {
     mockserver
       .query(
@@ -91,21 +73,21 @@ describe('mock server test suites', () => {
   });
 
   // https://stackoverflow.com/questions/49939464/graphql-tools-how-can-i-use-mockserver-to-mock-a-mutation
-  it('should update user name correctly', () => {
-    mockserver
-      .query(
-        `{
-      Mutation {
-        updateUserName(id: 1, name: "du") {
-          id
-          name
-        }
-      }
-    }`
-      )
-      .then(res => {
-        console.log(res);
-        expect(1).to.be.equal(1);
-      });
-  });
+  // it('should update user name correctly', () => {
+  //   mockserver
+  //     .query(
+  //       `{
+  //     Mutation {
+  //       updateUserName(id: 1, name: "du") {
+  //         id
+  //         name
+  //       }
+  //     }
+  //   }`
+  //     )
+  //     .then(res => {
+  //       console.log(res);
+  //       expect(1).to.be.equal(1);
+  //     });
+  // });
 });
