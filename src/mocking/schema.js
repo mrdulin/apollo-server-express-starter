@@ -4,6 +4,7 @@ const schemaDefs = `
   type User {
     id: ID!
     name: String!
+    paginatedFriends(pageNo: Int!): [User]
   }
 
   type Mutation{

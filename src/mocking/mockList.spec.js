@@ -10,6 +10,7 @@ const schema = makeExecutableSchema({
 
 const USER_MIN_NUM = 2;
 const USER_MAX_NUM = 6;
+const PAGE_SIZE = 10;
 
 const mocks = {
   Query: () => {
@@ -23,6 +24,17 @@ const mocks = {
       },
       user: (source, { id }, context, info) => {
         return { id, name: casual.name };
+      }
+    };
+  },
+  User: user => {
+    // console.log('user: ', user);
+    return {
+      paginatedFriends: (o, { pageNo }) => {
+        // console.log('pageNo: ', pageNo);
+        return new MockList(pageNo * PAGE_SIZE, () => {
+          return { id: casual.id, name: casual.name };
+        });
       }
     };
   }
@@ -71,6 +83,38 @@ describe('mockList test suites', () => {
         expect(user.id).to.be.equal(JSON.parse(userId));
         expect(user).to.have.own.property('id');
         expect(user).to.have.own.property('name');
+      });
+  });
+
+  it('should get friends of a user correctly', () => {
+    const userId = '"whatever"';
+    const pageNo = 1;
+    mockserver
+      .query(
+        `{
+      user(id: ${userId}) {
+        id
+        name
+        paginatedFriends(pageNo: ${pageNo}){
+          id
+          name
+        }
+      }
+    }`
+      )
+      .then(res => {
+        const { user } = res.data;
+        // console.log(user, user.paginatedFriends[0], user.paginatedFriends.length);
+        expect(user.id).to.be.equal(JSON.parse(userId));
+        expect(user).to.have.own.property('id');
+        expect(user).to.have.own.property('name');
+        expect(user.paginatedFriends)
+          .to.be.an('array')
+          .to.have.lengthOf(pageNo * PAGE_SIZE);
+        user.paginatedFriends.forEach(friend => {
+          expect(friend).to.have.own.property('id');
+          expect(friend).to.have.own.property('name');
+        });
       });
   });
 });
