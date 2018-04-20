@@ -2,14 +2,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
+const cors = require('cors');
 
 // Some fake data
 const books = [
   {
+    id: '1',
     title: "Harry Potter and the Sorcerer's stone",
     author: 'J.K. Rowling'
   },
   {
+    id: '2',
     title: 'Jurassic Park',
     author: 'Michael Crichton'
   }
@@ -17,13 +20,28 @@ const books = [
 
 // The GraphQL schema in string form
 const typeDefs = `
-  type Query { books: [Book] }
-  type Book { title: String, author: String }
+  type Query { 
+    books: [Book] 
+  }
+  
+  type Book { 
+    id: ID!, 
+    title: String, 
+    author: String 
+  }
 `;
 
 // The resolvers
 const resolvers = {
-  Query: { books: () => books }
+  Query: {
+    books: () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(books);
+        }, 2000);
+      });
+    }
+  }
 };
 
 // Put together a schema
@@ -35,6 +53,7 @@ const schema = makeExecutableSchema({
 // Initialize the app
 const app = express();
 
+app.use([cors()]);
 // The GraphQL endpoint
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
@@ -42,6 +61,6 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 // Start the server
-app.listen(3000, () => {
-  console.log('Go to http://localhost:3000/graphiql to run queries!');
+app.listen(4000, () => {
+  console.log('Go to http://localhost:4000/graphiql to run queries!');
 });
