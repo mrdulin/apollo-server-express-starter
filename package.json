@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --recursive --time=3000"
+    "test": "NODE_ENV=test mocha --timeout=3000"
   },
   "repository": {
     "type": "git",

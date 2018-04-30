@@ -43,7 +43,7 @@ const resolvers = {
         return name.indexOf(keyword) !== -1;
       });
 
-      console.log('dataSearched: ', dataSearched);
+      // console.log('dataSearched: ', dataSearched);
 
       return dataSearched;
     }
@@ -52,6 +52,7 @@ const resolvers = {
     __resolveType: obj => {
       if (obj.companyName) return 'Company';
       if (obj.name) return 'Hero';
+      return null;
     }
   }
 };
