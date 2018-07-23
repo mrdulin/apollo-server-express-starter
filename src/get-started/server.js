@@ -20,14 +20,14 @@ const books = [
 
 // The GraphQL schema in string form
 const typeDefs = `
-  type Query { 
-    books: [Book] 
+  type Query {
+    books: [Book]
   }
-  
-  type Book { 
-    id: ID!, 
-    title: String, 
-    author: String 
+
+  type Book {
+    id: ID!,
+    title: String,
+    author: String
   }
 `;
 

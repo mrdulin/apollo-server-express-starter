@@ -8,7 +8,8 @@
     "max-len": "off",
     "arrow-body-style": "off",
     "no-unused-vars": "off",
-    "no-mixed-operators": "off"
+    "no-mixed-operators": "off",
+    "no-await-in-loop": "warn"
   },
   "env": {
     "node": true,
