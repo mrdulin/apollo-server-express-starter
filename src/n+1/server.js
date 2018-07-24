@@ -35,7 +35,12 @@ function getBooks() {
 }
 
 function getUserById(id) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
+    // mock error
+    // if (id === 'b') {
+    //   reject(new Error('get author b error'));
+    //   return;
+    // }
     openDB(lowdb => {
       console.log('open db');
       const author = lowdb
@@ -58,13 +63,13 @@ function getUserById(id) {
 //   });
 // }
 
-async function getUsersById(ids) {
-  const users = [];
+function getUsersById(ids) {
+  const promises = [];
   for (const id of ids) {
-    const user = await getUserById(id);
-    users.push(user);
+    promises.push(getUserById(id));
   }
 
+  const users = Promise.all(promises);
   return users;
 }
 
@@ -91,14 +96,11 @@ const resolvers = {
   }
 };
 
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers
-});
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const app = express();
 
-app.use([cors()]);
+app.use(cors());
 app.use(
   '/graphql',
   bodyParser.json(),
