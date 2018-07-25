@@ -2,3 +2,4 @@ node_modules/
 credential.js
 dist/
 access.log
+uploads
