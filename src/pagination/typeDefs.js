@@ -5,10 +5,11 @@ const typeDefs = `
     author: String!
   }
 
-  interface Pagination{
-    startCursor
-    endCursor
-    hasNextPage
+  type PageInfo{
+    startCursor: String
+    endCursor: String
+    hasPrevPage: Boolean!
+    hasNextPage: Boolean!
   }
 
   type OffsetBasedPaginationResponse {
@@ -21,12 +22,21 @@ const typeDefs = `
     cursor: String!
   }
 
-  type
+  type BookEdge{
+    cursor: String!
+    node: Book
+  }
+
+  type RelayCursorBasedPaginationResponse{
+    edges: [BookEdge]
+    pageInfo: PageInfo!
+    total: Int!
+  }
 
   type Query {
     booksByOffset(offset: Int!, limit: Int = 10): OffsetBasedPaginationResponse
     booksByCursor(cursor: String, limit: Int = 10): CursorBasedPaginationResponse
-    booksByRelayStyleCursor():
+    booksByRelayStyleCursor(first: Int, after: String): RelayCursorBasedPaginationResponse
   }
 `;
 
