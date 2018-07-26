@@ -38,6 +38,7 @@
     "graphql-tools": "^2.24.0",
     "lowdb": "^1.0.0",
     "mkdirp": "^0.5.1",
+    "mongoose": "^5.2.5",
     "morgan": "^1.9.0",
     "node-fetch": "^2.1.2",
     "request": "^2.85.0",
