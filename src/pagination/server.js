@@ -4,7 +4,7 @@ const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
 const cors = require('cors');
 
-require('./connector/mongodb');
+const { mongooseConnect } = require('./connector/mongodb');
 const { lowdb } = require('./connector/lowdb');
 
 const { Book } = require('./models/Book');
@@ -13,6 +13,8 @@ const { resolvers } = require('./resolvers');
 const { typeDefs } = require('./typeDefs');
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+mongooseConnect();
 
 const app = express();
 app.use(cors());

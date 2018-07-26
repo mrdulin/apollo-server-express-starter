@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const resolvers = {
   Query: {
     async booksByOffset(_, { offset, limit }, ctx) {
@@ -21,6 +23,38 @@ const resolvers = {
       return {
         datas,
         total
+      };
+    },
+
+    async booksByCursor(_, { cursor: id, limit }, ctx) {
+      let datas = [];
+      let lastDataId = '';
+      if (id) {
+        const cursor = ctx.models.Book.find({ _id: { $gt: id } })
+          .limit(limit)
+          .cursor();
+        try {
+          for (let data = await cursor.next(); data != null; data = await cursor.next()) {
+            datas.push(data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        try {
+          datas = await ctx.models.Book.find().limit(limit);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      if (datas.length) {
+        lastDataId = datas[datas.length - 1]._id.toString();
+      }
+
+      return {
+        datas,
+        cursor: lastDataId
       };
     }
   }

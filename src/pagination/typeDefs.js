@@ -10,14 +10,14 @@ const typeDefs = `
     total: Int!
   }
 
-  typed CursorBasedPaginationResponse {
+  type CursorBasedPaginationResponse {
     datas: [Book!]!
     cursor: String!
   }
 
   type Query {
     booksByOffset(offset: Int!, limit: Int = 10): OffsetBasedPaginationResponse
-    booksByCursor(cursor: String!): CursorBasedPaginationResponse
+    booksByCursor(cursor: String, limit: Int = 10): CursorBasedPaginationResponse
   }
 `;
 
