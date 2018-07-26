@@ -5,6 +5,12 @@ const typeDefs = `
     author: String!
   }
 
+  interface Pagination{
+    startCursor
+    endCursor
+    hasNextPage
+  }
+
   type OffsetBasedPaginationResponse {
     datas: [Book!]!
     total: Int!
@@ -15,9 +21,12 @@ const typeDefs = `
     cursor: String!
   }
 
+  type
+
   type Query {
     booksByOffset(offset: Int!, limit: Int = 10): OffsetBasedPaginationResponse
     booksByCursor(cursor: String, limit: Int = 10): CursorBasedPaginationResponse
+    booksByRelayStyleCursor():
   }
 `;
 

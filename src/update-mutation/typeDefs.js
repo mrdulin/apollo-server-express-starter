@@ -1,22 +1,41 @@
-const typeDefs = `
-  input BookInput {
-    title: String!
-    author: String!
-  }
+function generateGraphQLTypes(typeName, schema) {
+  const typeDefsFragment = (required = '') =>
+    Object.keys(schema)
+      .map(name => `\n  ${name}: ${schema[name]}${required}`)
+      .join(',');
 
-  type Book {
-    id: ID!
-    title: String!
-    author: String!
-  }
+  const types = `
+    input ${typeName}CreateInput {
+      ${typeDefsFragment('!')}
+    }
+
+    input ${typeName}UpdateInput {
+      ${typeDefsFragment()}
+    }
+
+    type ${typeName} {
+      ${typeDefsFragment()}
+    }
+  `;
+  return types;
+}
+
+const typesString = generateGraphQLTypes('Book', {
+  id: 'ID',
+  title: 'String',
+  author: 'String'
+});
+
+const typeDefs = `
+  ${typesString}
 
   type Query {
     books: [Book!]!
   }
 
   type Mutation{
-    add(book: BookInput!): Book
-    update(id: String!, book: BookInput!): Book
+    add(book: BookCreateInput!): Book
+    update(book: BookUpdateInput!): Book
   }
 `;
 

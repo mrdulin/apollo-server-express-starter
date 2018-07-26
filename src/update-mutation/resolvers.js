@@ -15,10 +15,10 @@ const resolvers = {
         .last()
         .write();
     },
-    update: (root, { id, book }, ctx) => {
+    update: (root, { book }, ctx) => {
       return ctx.lowdb
-        .get('posts')
-        .find({ id })
+        .get('books')
+        .find({ id: book.id })
         .assign(book)
         .write();
     }
