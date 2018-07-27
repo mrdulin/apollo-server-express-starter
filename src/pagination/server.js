@@ -7,7 +7,7 @@ const cors = require('cors');
 const { mongooseConnect } = require('./connector/mongodb');
 const { lowdb } = require('./connector/lowdb');
 
-const { Book } = require('./models/Book');
+const { Book } = require('./database/models/Book');
 
 const { resolvers } = require('./resolvers');
 const { typeDefs } = require('./typeDefs');

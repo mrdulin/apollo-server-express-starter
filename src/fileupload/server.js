@@ -8,21 +8,30 @@ const { apolloUploadExpress } = require('apollo-upload-server');
 const { schema } = require('./schema');
 const { lowdb } = require('./db');
 
-const app = express();
+function start(done) {
+  const app = express();
+  app.use(cors());
+  app.use(
+    '/graphql',
+    bodyParser.json(),
+    apolloUploadExpress(),
+    graphqlExpress({
+      schema,
+      context: {
+        lowdb
+      }
+    })
+  );
+  app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
-app.use(cors());
-app.use(
-  '/graphql',
-  bodyParser.json(),
-  apolloUploadExpress(),
-  graphqlExpress({
-    schema,
-    context: {
-      lowdb
-    }
-  })
-);
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
-app.listen(4000, () => {
-  console.log('Go to http://localhost:4000/graphiql to run queries!');
-});
+  return app.listen(4000, () => {
+    if (done) done();
+    console.log('Go to http://localhost:4000/graphiql to run queries!');
+  });
+}
+
+if (process.env.NODE_ENV !== 'test') {
+  start();
+}
+
+module.exports = start;

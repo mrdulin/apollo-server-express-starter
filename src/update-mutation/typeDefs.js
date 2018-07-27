@@ -10,10 +10,12 @@ function generateGraphQLTypes(typeName, schema) {
     }
 
     input ${typeName}UpdateInput {
+      id: ID!
       ${typeDefsFragment()}
     }
 
     type ${typeName} {
+      id: ID!
       ${typeDefsFragment()}
     }
   `;
@@ -21,7 +23,6 @@ function generateGraphQLTypes(typeName, schema) {
 }
 
 const typesString = generateGraphQLTypes('Book', {
-  id: 'ID',
   title: 'String',
   author: 'String'
 });

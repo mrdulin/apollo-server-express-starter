@@ -1,8 +1,8 @@
-const { Book } = require('../../models/Book');
+const { Book } = require('./models/Book');
 const { generateBookDatas } = require('../../utils');
 const mongoose = require('mongoose');
 
-const { mongooseConnect } = require('./');
+const { mongooseConnect } = require('../connector/mongodb');
 
 mongooseConnect().then(() => {
   const books = generateBookDatas(20, mongoose.Types.ObjectId);

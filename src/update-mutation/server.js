@@ -8,13 +8,33 @@ const { resolvers } = require('./resolvers');
 const { typeDefs } = require('./typeDefs');
 
 const { lowdb } = require('./db');
+const { PORT } = require('../config');
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-const app = express();
-app.use(cors());
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema, context: { lowdb } }));
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
-app.listen(4000, () => {
-  console.log('Go to http://localhost:4000/graphiql to run queries!');
-});
+function start(done) {
+  const app = express();
+  app.use(cors());
+  app.use(
+    '/graphql',
+    bodyParser.json(),
+    graphqlExpress({
+      schema,
+      context: {
+        lowdb
+      }
+    })
+  );
+  app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+
+  return app.listen(PORT, () => {
+    if (done) done();
+    console.log(`Go to http://localhost:${PORT}/graphiql to run queries!`);
+  });
+}
+
+if (process.env.NODE_ENV !== 'test') {
+  start();
+}
+
+module.exports = start;

@@ -12,7 +12,7 @@ const typeDefs = `
 
   type Mutation {
     singleUpload(file: Upload!): File!
-    mutipleUpload(files: [Upload!]!): [File!]!
+    multipleUpload(text: String, files: [Upload!]!): [File!]!
   }
 `;
 
