@@ -61,10 +61,10 @@ exports.resolvers = {
         return data;
       });
     },
-    multipleUpload: async (root, { files, text }, ctx) => {
+    multipleUpload: (root, { files, text }, ctx) => {
       console.log('multipleUpload additional parameter - text: ', text);
       const processUploadPromises = files.map(file => processUpload(file, ctx.lowdb));
-      return await Promise.all(processUploadPromises);
+      return Promise.all(processUploadPromises);
     }
   }
 };

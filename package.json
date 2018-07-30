@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --timeout=3000"
+    "test": "NODE_ENV=test mocha --timeout=3000",
+    "clean:uploads": "rm -rf src/uploads/** & rm src/fileupload/lowdb.json"
   },
   "repository": {
     "type": "git",
