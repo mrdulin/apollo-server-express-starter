@@ -9,5 +9,5 @@ main({
   links: [githuntLink, remoteServerLink],
   port: LOCAL_PORT
 }).then(server => {
-  console.log('==');
+  console.log('https://github.com/apollographql/graphql-tools/blob/master/docs/source/remote-schemas.md');
 });

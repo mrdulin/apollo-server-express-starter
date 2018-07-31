@@ -20,13 +20,13 @@ const books = [
 const typeDefs = `
   scalar Date
 
-  type Book { 
-    title: String 
-    author: String 
-    publishDate: Date 
+  type Book {
+    title: String
+    author: String
+    publishDate: Date
   }
 
-  type Query { 
+  type Query {
     books: [Book]
     bookByDate(date: Date): [Book]
   }
@@ -41,12 +41,15 @@ const resolvers = {
   // Date: new GraphQLScalarType({
   //   name: 'Date',
   //   description: 'Date custom scalar type',
+  //   // gets invoked to parse client input that was passed through variables
   //   parseValue(value) {
-  //     return new Date(value); // value from the client
+  //     return new Date(value);
   //   },
+  //   // gets invoked when serializing the result to send it back to a client.
   //   serialize(value) {
   //     return value.getTime(); // value sent to the client
   //   },
+  //   // gets invoked to parse client input that was passed inline in the query.
   //   parseLiteral(ast) {
   //     if (ast.kind === Kind.INT) {
   //       return parseInt(ast.value, 10); // ast value is always in string format
@@ -60,6 +63,7 @@ const resolvers = {
     __parseValue(value) {
       return new Date(value);
     },
+
     __serialize(value) {
       return value.getTime();
     },
