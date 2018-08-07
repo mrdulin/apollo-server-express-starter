@@ -1,23 +1,24 @@
 const express = require('express');
+const http = require('http');
 const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
 const { PubSub } = require('graphql-subscriptions');
+const { SubscriptionServer } = require('subscriptions-transport-ws');
+const { execute, subscribe } = require('graphql');
+const shortid = require('shortid');
 
 const pubsub = new PubSub();
 
-const books = [
-  {
-    id: '1',
-    title: "Harry Potter and the Sorcerer's stone",
-    author: 'J.K. Rowling'
-  },
-  {
-    id: '2',
-    title: 'Jurassic Park',
-    author: 'Michael Crichton'
-  }
-];
+const db = {
+  comments: [{ id: shortid.generate(), content: 'angular' }, { id: shortid.generate(), content: 'react' }]
+};
+
+const COMMENT_ADD = 'COMMENT_ADD';
+
+const SUBSCRIPTION = {
+  ADD_COMMENT: 'addComment'
+};
 
 const typeDefs = `
   type Comment {
@@ -26,7 +27,15 @@ const typeDefs = `
   }
 
   type Subscription {
-    commentAdded(repoFullName: String!): Comment
+    ${SUBSCRIPTION.ADD_COMMENT}: Comment
+  }
+
+  type Query {
+    comments: [Comment]!
+  }
+
+  type Mutation {
+    addComment(content: String!): Comment
   }
 
   schema {
@@ -37,26 +46,23 @@ const typeDefs = `
 `;
 
 const resolvers = {
+  Query: {
+    comments: () => db.comments
+  },
+  Mutation: {
+    addComment: (_, { content }) => {
+      const comment = { id: shortid.generate(), content };
+      db.comments.push(comment);
+      pubsub.publish(COMMENT_ADD, { [SUBSCRIPTION.ADD_COMMENT]: comment });
+      return comment;
+    }
+  },
   Subscription: {
-    commentAdded: {
-      resolve: payload => {
-        return {
-          customData: payload
-        };
-      },
-      subscribe: () => pubsub.asyncIterator('commentAdded')
+    [SUBSCRIPTION.ADD_COMMENT]: {
+      subscribe: () => pubsub.asyncIterator(COMMENT_ADD)
     }
   }
 };
-
-const payload = {
-  commentAdded: {
-    id: '1',
-    content: 'Hello!'
-  }
-};
-
-pubsub.publish('commentAdded', payload);
 
 const schema = makeExecutableSchema({
   typeDefs,
@@ -65,13 +71,50 @@ const schema = makeExecutableSchema({
 
 function start(done) {
   const app = express();
-  app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
-  app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+  const port = 3000;
+  const wsPath = '/subscriptions';
+  const subscriptionsEndpoint = `ws://localhost:${port}${wsPath}`;
 
-  return app.listen(3000, () => {
-    if (done) done();
+  const server = http.createServer(app);
+
+  server.listen(port, err => {
+    if (err) {
+      throw new Error(err);
+    }
     console.log('Go to http://localhost:3000/graphiql to run queries!');
+
+    const ss = new SubscriptionServer(
+      {
+        execute,
+        subscribe,
+        schema,
+        onConnect: (connectionParams, webSocket, context) => {
+          console.log('onConnect');
+          console.log('connectionParams: ', connectionParams);
+          return connectionParams;
+        },
+        onOperation: (message, params, webSocket) => {
+          console.log('onOperation');
+          console.log('params: ', params);
+          console.log('message: ', message);
+          return message;
+        },
+        onOperationDone: webSocket => {
+          console.log('onOperationDone');
+        },
+        onDisconnect: (webSocket, context) => {
+          console.log('onDisconnect');
+        }
+      },
+      {
+        server,
+        path: wsPath
+      }
+    );
   });
+
+  app.use('/graphql', bodyParser.json(), graphqlExpress({ schema, subscriptionsEndpoint }));
+  app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql', subscriptionsEndpoint }));
 }
 
 if (process.env.NODE_ENV !== 'test') {
