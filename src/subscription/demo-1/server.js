@@ -14,7 +14,9 @@ const db = {
   comments: [{ id: shortid.generate(), content: 'angular' }, { id: shortid.generate(), content: 'react' }]
 };
 
-const COMMENT_ADD = 'COMMENT_ADD';
+const CHANNEL = {
+  COMMENT_ADD: 'COMMENT_ADD'
+};
 
 const SUBSCRIPTION = {
   ADD_COMMENT: 'addComment'
@@ -53,13 +55,13 @@ const resolvers = {
     addComment: (_, { content }) => {
       const comment = { id: shortid.generate(), content };
       db.comments.push(comment);
-      pubsub.publish(COMMENT_ADD, { [SUBSCRIPTION.ADD_COMMENT]: comment });
+      pubsub.publish(CHANNEL.COMMENT_ADD, { [SUBSCRIPTION.ADD_COMMENT]: comment });
       return comment;
     }
   },
   Subscription: {
     [SUBSCRIPTION.ADD_COMMENT]: {
-      subscribe: () => pubsub.asyncIterator(COMMENT_ADD)
+      subscribe: () => pubsub.asyncIterator(CHANNEL.COMMENT_ADD)
     }
   }
 };

@@ -13,3 +13,7 @@ https://github.com/apollographql/graphql-subscriptions
 https://github.com/apollographql/GitHunt-API/blob/master/api/server.js
 
 https://www.howtographql.com/graphql-js/7-subscriptions/
+
+https://graphql.org/blog/subscriptions-in-graphql-and-relay/
+
+https://github.com/prismagraphql/prisma/blob/master/examples/subscriptions/src/generated/prisma.graphql
