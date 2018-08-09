@@ -23,3 +23,5 @@ https://github.com/apollographql/graphql-subscriptions/blob/master/.designs/auth
 https://www.apollographql.com/docs/graphql-subscriptions/authentication.html
 
 https://www.apollographql.com/docs/react/advanced/subscriptions.html#authentication
+
+https://www.howtographql.com/react-apollo/8-subscriptions/
