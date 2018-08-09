@@ -17,3 +17,9 @@ https://www.howtographql.com/graphql-js/7-subscriptions/
 https://graphql.org/blog/subscriptions-in-graphql-and-relay/
 
 https://github.com/prismagraphql/prisma/blob/master/examples/subscriptions/src/generated/prisma.graphql
+
+https://github.com/apollographql/graphql-subscriptions/blob/master/.designs/authorization.md
+
+https://www.apollographql.com/docs/graphql-subscriptions/authentication.html
+
+https://www.apollographql.com/docs/react/advanced/subscriptions.html#authentication

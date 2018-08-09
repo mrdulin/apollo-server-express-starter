@@ -7,10 +7,12 @@ const { PubSub } = require('graphql-subscriptions');
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 const { execute, subscribe } = require('graphql');
 const shortid = require('shortid');
+const cors = require('cors');
 
 const pubsub = new PubSub();
 
 const db = {
+  users: [{ id: shortid.generate(), name: 'mrdulin', email: 'novaline@qq.com' }],
   comments: [{ id: shortid.generate(), content: 'angular' }, { id: shortid.generate(), content: 'react' }]
 };
 
@@ -61,6 +63,9 @@ const resolvers = {
   },
   Subscription: {
     [SUBSCRIPTION.ADD_COMMENT]: {
+      // resolve: (payload, args, context, info) => {
+      //   return payload[SUBSCRIPTION.ADD_COMMENT];
+      // },
       subscribe: () => pubsub.asyncIterator(CHANNEL.COMMENT_ADD)
     }
   }
@@ -73,7 +78,7 @@ const schema = makeExecutableSchema({
 
 function start(done) {
   const app = express();
-  const port = 3000;
+  const port = 4000;
   const wsPath = '/subscriptions';
   const subscriptionsEndpoint = `ws://localhost:${port}${wsPath}`;
 
@@ -83,7 +88,7 @@ function start(done) {
     if (err) {
       throw new Error(err);
     }
-    console.log('Go to http://localhost:3000/graphiql to run queries!');
+    console.log(`Go to http://localhost:${port}/graphiql to run queries!`);
 
     const ss = new SubscriptionServer(
       {
@@ -91,14 +96,23 @@ function start(done) {
         subscribe,
         schema,
         onConnect: (connectionParams, webSocket, context) => {
-          console.log('onConnect');
-          console.log('connectionParams: ', connectionParams);
-          return connectionParams;
+          console.log(`onConnect - connectionParams: ${connectionParams}`);
+
+          const { token } = connectionParams;
+          const parts = token.split(' ');
+          const bearer = parts[0];
+          const credential = parts[1];
+          if (/^Bearer$/i.test(bearer) && credential) {
+            const currentUser = db.users.find(user => user.name === 'mrdulin');
+            return {
+              user: currentUser
+            };
+          }
+
+          throw new Error('Missing auth token!');
         },
         onOperation: (message, params, webSocket) => {
-          console.log('onOperation');
-          console.log('params: ', params);
-          console.log('message: ', message);
+          console.log(`onOperation - params: ${params}, message: ${message}`);
           return message;
         },
         onOperationDone: webSocket => {
@@ -111,10 +125,20 @@ function start(done) {
       {
         server,
         path: wsPath
+        // verifyClient: (info, cb) => {
+        //   const { req, origin } = info;
+        //   if (req.headers.Authorization) {
+        //     const parts = req.headers.Authorization.split(' ');
+        //     const token = parts[1];
+        //     return cb(true);
+        //   }
+        //   return cb(false);
+        // }
       }
     );
   });
 
+  app.use(cors());
   app.use('/graphql', bodyParser.json(), graphqlExpress({ schema, subscriptionsEndpoint }));
   app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql', subscriptionsEndpoint }));
 }
