@@ -27,13 +27,20 @@ const db = {
       locationId: locationId1,
       userType: 'ZELO'
     },
-    { id: shortid.generate(), name: casual.name, email: casual.email, orgId, locationId: null, userType: 'ZEWI' }
+    { id: shortid.generate(), name: casual.name, email: casual.email, orgId, locationId: null, userType: 'ZEWI' },
+    { id: shortid.generate(), name: casual.name, email: casual.email, orgId, locationId: null, userType: 'ZOWI' }
   ],
   comments: [
-    { id: shortid.generate(), content: casual.short_description },
-    { id: shortid.generate(), content: casual.short_description }
+    { id: shortid.generate(), content: casual.short_description, shareLocationIds: [locationId1] },
+    { id: shortid.generate(), content: casual.short_description, shareLocationIds: [locationId2] }
   ]
 };
+
+const findLocationsByOrgId = id => db.locations.map(location => location.orgId === id);
+const findUserByUserType = type => db.users.find(user => user.userType === type);
+const findLocationIdsByOrgId = id => findLocationsByOrgId(id).map(loc => loc.id);
+
+const intersection = (arr1, arr2) => arr1.filter(value => arr2.indexOf(value) !== -1);
 
 function toJson(obj) {
   if (typeof obj === 'string') {
@@ -48,7 +55,6 @@ function toJson(obj) {
 
 function auth(req, res, next) {
   const { authorization } = req.headers;
-  console.log('authorization: ', authorization);
   const parts = authorization.split(' ');
   const bearer = parts[0];
   const credential = parts[1];
@@ -101,8 +107,8 @@ const resolvers = {
   },
   Mutation: {
     addComment: (_, { content }, ctx) => {
-      const comment = { id: shortid.generate(), content: casual.short_description };
-      const reqUser = db.users.find(user => user.userType === ctx.user.userType);
+      const comment = { id: shortid.generate(), content: casual.short_description, shareLocationIds: [locationId1] };
+      const reqUser = findUserByUserType(ctx.user.userType);
 
       db.comments.push(comment);
       pubsub.publish(CHANNEL.COMMENT_ADD, {
@@ -114,8 +120,8 @@ const resolvers = {
       return comment;
     },
     deleteAllComment: () => {
-      const count = 2;
-      db.comments.slice(0, count);
+      const count = db.comments.length;
+      db.comments = [];
       return count;
     }
   },
@@ -127,12 +133,41 @@ const resolvers = {
       subscribe: withFilter(
         () => pubsub.asyncIterator([CHANNEL.COMMENT_ADD]),
         (payload, variables, context) => {
-          const { user } = context;
+          if (!payload) {
+            return false;
+          }
+          const { user: subscribeUser } = context;
+          const {
+            addComment: { user: sendUser, comment }
+          } = payload;
 
-          console.log('subscribe.user.userType: ', user.userType);
-          console.log('request.user.userType: ', payload.addComment.user.userType);
+          console.log('subscribeUser.userType: ', subscribeUser.userType);
+          console.log('sendUser.userType: ', sendUser.userType);
 
-          return user.userType === payload.addComment.user.userType;
+          // send message user: ZOWI
+          // subscribe users: ZELO-1, ZELO-2, ZEWI-1(ZELO-3, ZELO-4), ZEWI-2(ZELO-5, ZELO-6)
+          // ZOWI send message => ZELO-1, ZELO-2, ZEWI-1(ZELO-3, ZELO-4), ZEWI-2(ZELO-5, ZELO-6) receive message
+
+          const notifyLocationIds = comment.shareLocationIds;
+          let subscribeLocationIds = [];
+
+          switch (subscribeUser.userType) {
+            case 'ZELO':
+              subscribeLocationIds = [subscribeUser.locationId];
+              break;
+            case 'ZEWI':
+              subscribeLocationIds = findLocationIdsByOrgId(subscribeUser.orgId);
+              break;
+            case 'ZOWI':
+              return false;
+            default:
+              break;
+          }
+
+          // notifyLocationIds = [1,2,3], subscribeLocationIds = [1,4]
+
+          const shouldNofity = intersection(notifyLocationIds, subscribeLocationIds).length > 0;
+          return shouldNofity;
         }
       )
     }
@@ -171,7 +206,7 @@ function start(done) {
           const bearer = parts[0];
           const credential = parts[1];
           if (/^Bearer$/i.test(bearer) && credential) {
-            const subscribeUser = db.users.find(user => user.userType === credential);
+            const subscribeUser = findUserByUserType(credential);
             return {
               user: subscribeUser
             };
@@ -196,8 +231,9 @@ function start(done) {
         path: wsPath
         // verifyClient: (info, cb) => {
         //   const { req, origin } = info;
-        //   if (req.headers.Authorization) {
-        //     const parts = req.headers.Authorization.split(' ');
+        //   console.log('req.headers.authorization: ', req.headers.authorization);
+        //   if (req.headers.authorization) {
+        //     const parts = req.headers.authorization.split(' ');
         //     const token = parts[1];
         //     return cb(true);
         //   }
