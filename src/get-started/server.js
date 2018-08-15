@@ -33,6 +33,11 @@ const typeDefs = `
 
 // The resolvers
 const resolvers = {
+  Book: {
+    title: book => {
+      return book.title.toUpperCase();
+    }
+  },
   Query: {
     books: () => {
       return new Promise((resolve, reject) => {
