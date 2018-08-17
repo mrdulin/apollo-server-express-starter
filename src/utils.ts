@@ -1,17 +1,32 @@
-import requestPromise, { RequestPromise } from 'request-promise';
+import requestPromise from 'request-promise';
 import { createLogger, transports, format, Logger } from 'winston';
 
 import { config } from './config';
 
-function rp(body: object): RequestPromise {
-  const options = {
-    uri: config.GRAPHQL_ENDPOINT,
-    method: 'POST',
-    json: true,
-    body
-  };
+function request() {
+  function post(body) {
+    return requestPromise(config.GRAPHQL_ENDPOINT, {
+      method: 'POST',
+      body,
+      json: true,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
 
-  return requestPromise(options);
+  function get(qs) {
+    return requestPromise(config.GRAPHQL_ENDPOINT, {
+      method: 'GET',
+      qs,
+      json: true
+    });
+  }
+
+  return {
+    post,
+    get
+  };
 }
 
 function createAppLogger(): Logger {
@@ -34,4 +49,8 @@ function createAppLogger(): Logger {
 
 const logger: Logger = createAppLogger();
 
-export { rp, logger };
+function getRandomInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export { request, logger, getRandomInt };
