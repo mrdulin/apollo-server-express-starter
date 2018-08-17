@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import http from 'http';
+import sinon, { SinonSpy, SinonSpyCall, SinonStub } from 'sinon';
 
 import { start } from './server';
 import { IUser, IBook, lowdb } from './db';
@@ -20,6 +21,10 @@ describe('n+1 test suites', () => {
 
   const UserModel = User({ db: lowdb });
   const BookModel = Book({ db: lowdb });
+
+  afterEach(() => {
+    sinon.restore();
+  });
 
   it('should return correct user when query by user id', async () => {
     const query: string = `

@@ -31,8 +31,10 @@
     "@types/request": "^2.47.1",
     "@types/request-promise": "^4.1.42",
     "@types/shortid": "0.0.29",
+    "@types/sinon": "^5.0.1",
     "chai": "^4.1.2",
     "mocha": "^5.1.0",
+    "sinon": "^6.1.5",
     "ts-node": "^7.0.0",
     "tslint": "^5.11.0",
     "typescript": "^3.0.1"

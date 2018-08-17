@@ -14,7 +14,7 @@ const User = ({ db, collectionName = 'users' }: { db: LoDashExplicitSyncWrapper<
   }
 
   function getUserById(id: string): Promise<any> {
-    // logger.info(`getUserById: ${id}`);
+    logger.info(`getUserById: ${id}`);
     return new Promise(resolve => {
       setTimeout(() => {
         const user = db

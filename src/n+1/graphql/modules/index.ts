@@ -10,4 +10,4 @@ const typeDefs = mergeTypes(typesArray);
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-export { schema };
+export { schema, resolvers };
