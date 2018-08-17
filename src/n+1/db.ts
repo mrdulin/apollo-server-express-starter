@@ -14,8 +14,8 @@ function getRandomInt(min: number, max: number): number {
 }
 
 function generateData() {
-  const books = [];
-  const users = [];
+  const books: any[] = [];
+  const users: any[] = [];
 
   for (let i = 0; i < 2; i++) {
     const user = { id: shortid.generate(), name: casual.name };
@@ -23,7 +23,8 @@ function generateData() {
   }
 
   for (let i = 0; i < 10; i++) {
-    const { id: authorId }: { id: string } = users[getRandomInt(0, users.length)];
+    const ranInt: number = getRandomInt(0, users.length - 1);
+    const { id: authorId }: { id: string } = users[ranInt];
     const book = { id: shortid.generate(), title: casual.title, authorId };
     books.push(book);
   }

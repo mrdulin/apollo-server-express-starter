@@ -7,14 +7,14 @@ const resolvers = {
     }
   },
   Book: {
-    author: (book, { dataloaders }) => {
-      logger.info('resolver: Book.author');
+    author: (book, args, { models }) => {
+      // logger.info(`resolver: Book.author; authorId: ${book.authorId}`);
 
       // 优化前
-      // return getUserById(book.authorId);
+      // return models.User.getUserById(book.authorId);
 
       // 使用dataloader优化后
-      return dataloaders.userById.load(book.authorId);
+      return models.User.dataloaders.userById.load(book.authorId);
     }
   }
 };

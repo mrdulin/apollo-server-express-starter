@@ -8,7 +8,8 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${file}"
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "args": ["${file}"]
     }
   ]
 }

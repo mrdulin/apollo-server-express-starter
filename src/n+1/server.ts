@@ -1,9 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import { makeExecutableSchema } from 'graphql-tools';
 import cors from 'cors';
-import DataLoader from 'dataloader';
 import http from 'http';
 import { LoDashExplicitSyncWrapper } from 'lowdb';
 
@@ -11,34 +9,10 @@ import { seed } from './db';
 import { config } from '../config';
 import { logger } from '../utils';
 import { Book, User } from './graphql/models';
-
-const typeDefs = `
-  type Query {
-    books: [Book]
-  }
-
-  type Author {
-    id: ID!
-    name: String!
-  }
-
-  type Book {
-    id: ID!
-    title: String!
-    author: Author
-  }
-`;
-
-const dataloaders = () => {
-  return {
-    userById: new DataLoader(ids => getUsersById(ids))
-  };
-};
+import { schema } from './graphql/modules';
 
 async function start(): Promise<http.Server> {
   const app: express.Application = express();
-  const schema = makeExecutableSchema({ typeDefs, resolvers });
-
   const db: LoDashExplicitSyncWrapper<any> = await seed();
 
   app.use(cors());
@@ -48,7 +22,6 @@ async function start(): Promise<http.Server> {
     graphqlExpress({
       schema,
       context: {
-        dataloaders: dataloaders(),
         models: {
           User: User({ db }),
           Book: Book({ db })
