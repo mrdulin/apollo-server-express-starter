@@ -1,11 +1,9 @@
-# apollo-server-express
+# apollo-server-express-starter
 
-## unit test
+## Usage
 
-```bash
-npm test -- src/batching
-```
+1. `npm i`
 
-## resources
+2. If you use vscode, select `typescript` version to local version
 
-https://www.graphql.com/guides/
+3. take a look about `.vscode/launch.json`, you will find how to launch program of each sample
