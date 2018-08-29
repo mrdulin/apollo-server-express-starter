@@ -13,13 +13,13 @@
 ---|------/------------------------------------------------------------|--------
 |  |    /                                                              |       |
 | worker1               worker2               worker3               worker4 ...|  server side
-| (pubsub.publish('BOOK'), payload)                                            |
+| pubsub.publish('BOOK', payload)                                              |
 --------------------------------------------------------------------------------
 ```
 
 需要使用`redis pubsub`或者`google pub/sub`，才能在多个服务器应用实例间传递消息
 
-列出`redis` 的`pub/sub`的`channels`
+列出`redis`的`pub/sub`的`channels`
 
 ```bash
 127.0.0.1:6379> PUBSUB CHANNELS
