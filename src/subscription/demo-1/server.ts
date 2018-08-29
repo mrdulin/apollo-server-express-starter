@@ -103,4 +103,4 @@ if (process.env.NODE_ENV !== 'test') {
   start();
 }
 
-module.exports = start;
+export { start };
