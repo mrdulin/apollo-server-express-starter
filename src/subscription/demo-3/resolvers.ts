@@ -1,10 +1,9 @@
-import { PubSub, withFilter } from 'graphql-subscriptions';
+import { withFilter } from 'graphql-subscriptions';
 import { IResolvers } from 'graphql-tools';
 
 import { CHANNEL, SUBSCRIPTION } from './channel';
 import { logger } from '../../utils';
-
-const pubsub: PubSub = new PubSub();
+import { pubsub } from './pubsub';
 
 const resolvers: IResolvers = {
   Book: {

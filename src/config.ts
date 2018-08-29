@@ -6,6 +6,8 @@ interface IOptions {
   GRAPHQL_ENDPOINT: string;
   WEBSOCKET_ROUTE: string;
   WEBSOCKET_ENDPOINT: string;
+  REDIS_HOST: string;
+  REDIS_PORT: number;
 }
 const config: IOptions = {
   HOST: process.env.HOST || 'localhost',
@@ -14,7 +16,9 @@ const config: IOptions = {
   GRAPHIQL_ROUTE: '/graphiql',
   GRAPHQL_ENDPOINT: '',
   WEBSOCKET_ROUTE: '/subscriptions',
-  WEBSOCKET_ENDPOINT: ''
+  WEBSOCKET_ENDPOINT: '',
+  REDIS_HOST: '127.0.0.1',
+  REDIS_PORT: 6379
 };
 
 config.GRAPHQL_ENDPOINT = `http://${config.HOST}:${config.PORT}${config.GRAPHQL_ROUTE}`;
