@@ -106,7 +106,7 @@ const schema = makeExecutableSchema({
 
 function start(done) {
   const app = express();
-  const port = 3000;
+  const port = 4000;
   const wsPath = '/subscriptions';
   const subscriptionsEndpoint = `ws://localhost:${port}${wsPath}`;
 
@@ -116,7 +116,7 @@ function start(done) {
     if (err) {
       throw new Error(err);
     }
-    console.log('Go to http://localhost:3000/graphiql to run queries!');
+    console.log('Go to http://localhost:4000/graphiql to run queries!');
 
     const ss = new SubscriptionServer(
       {

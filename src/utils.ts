@@ -53,4 +53,17 @@ function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export { request, logger, getRandomInt };
+const intersection = (arr1, arr2) => arr1.filter(value => arr2.indexOf(value) !== -1);
+
+function toJson(obj) {
+  if (typeof obj === 'string') {
+    return obj;
+  }
+  try {
+    return JSON.stringify(obj, null, 4);
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export { request, logger, getRandomInt, intersection, toJson };
