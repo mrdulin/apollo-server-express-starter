@@ -5,6 +5,7 @@ interface IOptions {
   GRAPHIQL_ROUTE: string;
   GRAPHQL_ENDPOINT: string;
   WEBSOCKET_ROUTE: string;
+  WEBSOCKET_ENDPOINT: string;
 }
 const config: IOptions = {
   HOST: process.env.HOST || 'localhost',
@@ -12,9 +13,11 @@ const config: IOptions = {
   GRAPHQL_ROUTE: '/graphql',
   GRAPHIQL_ROUTE: '/graphiql',
   GRAPHQL_ENDPOINT: '',
-  WEBSOCKET_ROUTE: '/subscriptions'
+  WEBSOCKET_ROUTE: '/subscriptions',
+  WEBSOCKET_ENDPOINT: ''
 };
 
 config.GRAPHQL_ENDPOINT = `http://${config.HOST}:${config.PORT}${config.GRAPHQL_ROUTE}`;
+config.WEBSOCKET_ENDPOINT = `ws://${config.HOST}:${config.PORT}${config.WEBSOCKET_ROUTE}`;
 
 export { config };

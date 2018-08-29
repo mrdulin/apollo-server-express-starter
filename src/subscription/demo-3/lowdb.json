@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": "5Eh0evz9C",
+      "name": "Dr. Brandyn Renner"
+    },
+    {
+      "id": "LxXuiftAoS",
+      "name": "Ms. Barrett Bartell"
+    }
+  ],
+  "books": [
+    {
+      "id": "rSJaAaXNcu",
+      "title": "Architecto distinctio consequatur",
+      "authorId": "5Eh0evz9C"
+    },
+    {
+      "id": "v-TUxE6QuU",
+      "title": "Eveniet neque",
+      "authorId": "LxXuiftAoS"
+    }
+  ]
+}
