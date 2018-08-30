@@ -1,12 +1,13 @@
-const start = require('./server');
-const { expect } = require('chai');
+import { expect } from 'chai';
+import http from 'http';
 
-const rp = require('../rp')();
+import { start, bookId1 } from './server';
+import { request, logger } from '../utils';
 
-let server;
-
-before(done => {
-  server = start(done);
+const rp = request();
+let server: http.Server;
+before(async () => {
+  server = await start();
 });
 
 after(done => {
@@ -14,27 +15,27 @@ after(done => {
 });
 
 describe('graphql batching query test suites', () => {
-  const batchQueries = [
-    {
-      query: `
-        query {
-          books{
-            title
-          }
-        }
-      `
-    },
-    {
-      query: `
-        query {
-          bookById(id: "1") {
-            title
-          }
-        }
-      `
-    }
-  ];
   describe('http post', () => {
+    const batchQueries = [
+      {
+        query: `
+          query {
+            books{
+              title
+            }
+          }
+        `
+      },
+      {
+        query: `
+          query {
+            bookById(id: ${JSON.stringify(bookId1)}) {
+              title
+            }
+          }
+        `
+      }
+    ];
     it('should get an array of GraphQL responses.', () => {
       return rp.post(batchQueries).then(res => {
         expect(res)
@@ -44,12 +45,24 @@ describe('graphql batching query test suites', () => {
         expect(res[0].data.books).to.be.an('array');
         expect(res[1].data.bookById)
           .to.be.an('object')
-          .to.have.own.property('title');
+          .to.have.property('title');
       });
     });
   });
 
   describe('http get', () => {
+    const batchQueries = {
+      query: `
+        query {
+          books{
+            title
+          }
+          bookById(id: ${JSON.stringify(bookId1)}) {
+            title
+          }
+        }
+      `
+    };
     it('should get an books correctly', () => {
       const qs = {
         query: `
@@ -64,18 +77,12 @@ describe('graphql batching query test suites', () => {
         expect(res.data.books).to.be.an('array');
       });
     });
-    // TODO:
     it('should get an array of GraphQL responses.', () => {
       return rp.get(batchQueries).then(res => {
-        console.log('http get:', res);
-        expect(res)
-          .to.be.an('array')
-          .to.have.lengthOf(batchQueries.length);
-
-        expect(res[0].data.books).to.be.an('array');
-        expect(res[1].data.bookById)
+        expect(res.data.books).to.be.an('array');
+        expect(res.data.bookById)
           .to.be.an('object')
-          .to.have.own.property('title');
+          .to.have.property('title');
       });
     });
   });
