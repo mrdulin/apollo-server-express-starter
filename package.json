@@ -41,6 +41,7 @@
     "typescript": "^3.0.1"
   },
   "dependencies": {
+    "@axelspringer/graphql-google-pubsub": "^1.0.9",
     "apollo-engine": "^1.1.0",
     "apollo-link": "^1.2.2",
     "apollo-link-http": "^1.5.4",

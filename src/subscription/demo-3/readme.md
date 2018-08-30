@@ -1,4 +1,6 @@
-# RedisPubsub vs pubsub
+# RedisPubsub, GooglePubsub and pubsub
+
+## pubsub
 
 单机集群模式下启动多个服务器应用实例。
 
@@ -18,6 +20,8 @@
 ```
 
 需要使用`redis pubsub`或者`google pub/sub`，才能在多个服务器应用实例间传递消息
+
+## redis pub/sub
 
 列出`redis`的`pub/sub`的`channels`
 
@@ -39,3 +43,7 @@ Reading messages... (press Ctrl-C to quit)
 2) "BOOK"
 3) "{\"book\":{\"id\":\"rSJaAaXNcu\",\"title\":\"react\",\"authorId\":\"5Eh0evz9C\"}}"
 ```
+
+## GCP pub/sub
+
+开发测试：在当前终端`shell`配置好`GOOGLE_APPLICATION_CREDENTIALS`环境变量，用于认证，只有认证后才能调用`GCP pub/sub`的`api`

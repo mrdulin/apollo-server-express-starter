@@ -9,6 +9,9 @@
       "request": "launch",
       "name": "Launch Program",
       "runtimeArgs": ["-r", "ts-node/register"],
+      "env": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "/Users/ldu020/workspace/pg-gx-e-app-700458-108e793dd1e3.json"
+      },
       "args": ["${file}"],
       "console": "integratedTerminal"
     },

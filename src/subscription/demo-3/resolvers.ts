@@ -3,7 +3,12 @@ import { IResolvers } from 'graphql-tools';
 
 import { CHANNEL, SUBSCRIPTION } from './channel';
 import { logger } from '../../utils';
-import { pubsub } from './pubsub';
+import { pubsub } from './pubsubs/google';
+
+pubsub.subscribe('lin-topic-sub', message => {
+  logger.info('subscribe');
+  logger.info(message);
+});
 
 const resolvers: IResolvers = {
   Book: {
@@ -29,7 +34,7 @@ const resolvers: IResolvers = {
         .value();
 
       if (book) {
-        pubsub.publish(CHANNEL.BOOK, {
+        pubsub.publish(CHANNEL.LIN_TOPIC, {
           [SUBSCRIPTION.BOOK]: book
         });
         return book;
@@ -39,12 +44,18 @@ const resolvers: IResolvers = {
   },
   Subscription: {
     [SUBSCRIPTION.BOOK]: {
-      resolve: (payload, args, context, info) => {
+      // if not handle google pub/sub message within commonMessageHandler
+      // resolve: (message, args, context) => {
+      //   const payload = JSON.parse(message.data.toString());
+      //   return payload[SUBSCRIPTION.BOOK];
+      // },
+
+      resolve: (payload, args, context) => {
         return payload[SUBSCRIPTION.BOOK];
       },
       subscribe: withFilter(
         (rootValue, args, context, info) => {
-          return pubsub.asyncIterator(CHANNEL.BOOK);
+          return pubsub.asyncIterator(CHANNEL.LIN_TOPIC);
         },
         (payload, variables, context, info) => {
           logger.info('payload: ', payload);
