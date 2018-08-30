@@ -60,7 +60,7 @@ function toJson(obj) {
     return obj;
   }
   try {
-    return JSON.stringify(obj, null, 4);
+    return JSON.stringify(obj);
   } catch (error) {
     throw new Error(error);
   }

@@ -7,10 +7,11 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { execute, subscribe, GraphQLSchema } from 'graphql';
 import cors from 'cors';
 
-import { logger, toJson } from '../../utils';
-import { findUserByUserType } from './db';
+import { logger } from '../../utils';
+import { findUserByUserType, db } from './db';
 import { resolvers } from './resolvers';
 import { typeDefs } from './typeDefs';
+import { config } from '../../config';
 
 function auth(req, res, next) {
   const { authorization } = req.headers;
@@ -30,17 +31,13 @@ const schema: GraphQLSchema = makeExecutableSchema({ typeDefs, resolvers });
 
 function start() {
   const app = express();
-  const port = 4000;
-  const wsPath = '/subscriptions';
-  const subscriptionsEndpoint = `ws://localhost:${port}${wsPath}`;
-
   const server = http.createServer(app);
 
-  server.listen(port, err => {
+  server.listen(config.PORT, err => {
     if (err) {
       throw new Error(err);
     }
-    logger.info(`Go to http://localhost:${port}/graphiql to run queries!`);
+    logger.info(`Go to ${config.GRAPHQL_ENDPOINT} to run queries!`);
 
     const ss = new SubscriptionServer(
       {
@@ -48,7 +45,8 @@ function start() {
         subscribe,
         schema,
         onConnect: (connectionParams, webSocket, context) => {
-          logger.info(`onConnect - connectionParams: ${toJson(connectionParams)}`);
+          logger.info('onConnect');
+          logger.info({ label: 'connectionParams', msg: connectionParams });
 
           const { token } = connectionParams;
           const parts = token.split(' ');
@@ -65,11 +63,19 @@ function start() {
         },
         onOperation: (message, params, webSocket) => {
           // https://github.com/apollographql/subscriptions-transport-ws/issues/300
-          logger.info(`onOperation - params: ${toJson(params)}, message: ${toJson(message)}`);
-          return params;
+          logger.info('onOperation');
+          logger.info({ label: 'params', msg: params });
+          logger.info({ label: 'message', msg: message });
+          return {
+            ...params,
+            context: {
+              ...params.context,
+              db
+            }
+          };
         },
         onOperationComplete: webSocket => {
-          logger.info('onOperationDone');
+          logger.info('onOperationComplete');
         },
         onDisconnect: (webSocket, context) => {
           logger.info('onDisconnect');
@@ -77,26 +83,28 @@ function start() {
       },
       {
         server,
-        path: wsPath
+        path: config.WEBSOCKET_ROUTE
       }
     );
   });
 
   app.use(cors(), auth);
   app.use(
-    '/graphql',
+    config.GRAPHQL_ROUTE,
     bodyParser.json(),
     graphqlExpress((req?: express.Request) => {
       return {
         schema,
         context: {
           user: (req as any).user
-        },
-        subscriptionsEndpoint
+        }
       };
     })
   );
-  app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql', subscriptionsEndpoint }));
+  app.use(
+    config.GRAPHIQL_ROUTE,
+    graphiqlExpress({ endpointURL: config.GRAPHQL_ROUTE, subscriptionsEndpoint: config.WEBSOCKET_ENDPOINT })
+  );
 }
 
 if (process.env.NODE_ENV !== 'test') {

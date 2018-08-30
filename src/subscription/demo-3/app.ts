@@ -7,11 +7,11 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { execute, subscribe, GraphQLSchema } from 'graphql';
 import cluster from 'cluster';
 
-import { logger } from '../../utils';
+import { logger, toJson } from '../../utils';
 import { config } from '../../config';
 import { typeDefs } from './typeDefs';
 import { resolvers } from './resolvers';
-import { lowdb } from './db';
+import { lowdb, authorId2, authorId1 } from './db';
 
 const schema: GraphQLSchema = makeExecutableSchema({ typeDefs, resolvers });
 
@@ -32,11 +32,11 @@ function start() {
         schema,
         onConnect: (connectionParams, webSocket, context) => {
           logger.info('onConnect');
-          logger.info('connectionParams: ', connectionParams);
+          logger.info(`connectionParams: ${toJson(connectionParams)}`);
 
           // 这里返回的对象会被传入onOperation的params.context
           return {
-            user: { name: 'test' }
+            user: { id: authorId2 }
           };
         },
         onOperation: (message, params, webSocket) => {
@@ -62,7 +62,10 @@ function start() {
       { server, path: config.WEBSOCKET_ROUTE }
     );
   });
-
+  app.use((req: any, res, next) => {
+    req.user = { id: authorId1 };
+    next();
+  });
   app.use((req, res, next) => {
     if (cluster.isWorker) {
       logger.info(`Worker ${cluster.worker.id} received request`);
@@ -72,11 +75,12 @@ function start() {
   app.use(
     config.GRAPHQL_ROUTE,
     bodyParser.json(),
-    graphqlExpress(req => {
+    graphqlExpress((req: any) => {
       return {
         schema,
         context: {
-          db: lowdb
+          db: lowdb,
+          user: req.user
         }
       };
     })

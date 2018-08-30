@@ -10,14 +10,14 @@ const lowdb = low(adapter);
 const authorId1 = shortid.generate();
 const authorId2 = shortid.generate();
 
+lowdb.defaults({ users: [], books: [] }).write();
+
+lowdb.set('users', [{ id: authorId1, name: casual.name }, { id: authorId2, name: casual.name }]).write();
 lowdb
-  .defaults({
-    users: [{ id: authorId1, name: casual.name }, { id: authorId2, name: casual.name }],
-    books: [
-      { id: shortid.generate(), title: casual.title, authorId: authorId1 },
-      { id: shortid.generate(), title: casual.title, authorId: authorId2 }
-    ]
-  })
+  .set('books', [
+    { id: shortid.generate(), title: casual.title, authorId: authorId1 },
+    { id: shortid.generate(), title: casual.title, authorId: authorId2 }
+  ])
   .write();
 
-export { lowdb };
+export { lowdb, authorId1, authorId2 };

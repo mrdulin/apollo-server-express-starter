@@ -2,13 +2,8 @@ import { withFilter } from 'graphql-subscriptions';
 import { IResolvers } from 'graphql-tools';
 
 import { CHANNEL, SUBSCRIPTION } from './channel';
-import { logger } from '../../utils';
+import { logger, toJson } from '../../utils';
 import { pubsub } from './pubsubs/google';
-
-pubsub.subscribe('lin-topic-sub', message => {
-  logger.info('subscribe');
-  logger.info(message);
-});
 
 const resolvers: IResolvers = {
   Book: {
@@ -26,7 +21,7 @@ const resolvers: IResolvers = {
     books: (_, args, { db }) => db.get('books').value()
   },
   Mutation: {
-    updateBook: (_, { id, title }, { db }) => {
+    updateBook: (_, { id, title }, { db, user }) => {
       const book = db
         .get('books')
         .find({ id })
@@ -35,7 +30,10 @@ const resolvers: IResolvers = {
 
       if (book) {
         pubsub.publish(CHANNEL.LIN_TOPIC, {
-          [SUBSCRIPTION.BOOK]: book
+          data: book,
+          context: {
+            user
+          }
         });
         return book;
       }
@@ -47,19 +45,32 @@ const resolvers: IResolvers = {
       // if not handle google pub/sub message within commonMessageHandler
       // resolve: (message, args, context) => {
       //   const payload = JSON.parse(message.data.toString());
-      //   return payload[SUBSCRIPTION.BOOK];
+      //   return payload.data;
       // },
 
       resolve: (payload, args, context) => {
-        return payload[SUBSCRIPTION.BOOK];
+        return payload.data;
       },
       subscribe: withFilter(
-        (rootValue, args, context, info) => {
+        (rootValue, args, context) => {
           return pubsub.asyncIterator(CHANNEL.LIN_TOPIC);
         },
-        (payload, variables, context, info) => {
-          logger.info('payload: ', payload);
-          logger.info('variables: ', variables);
+        (payload, variables, context) => {
+          logger.info({ label: 'payload', msg: payload });
+          logger.info({ label: 'variables', msg: variables });
+
+          const { db } = context;
+          const subscribeUser = db
+            .get('users')
+            .find({ id: context.user.id })
+            .value();
+
+          const requestingUser = db
+            .get('users')
+            .find({ id: payload.context.user.id })
+            .value();
+          logger.info({ label: 'subscribeUser', msg: subscribeUser });
+          logger.info({ label: 'requestingUser', msg: requestingUser });
           return true;
         }
       )
