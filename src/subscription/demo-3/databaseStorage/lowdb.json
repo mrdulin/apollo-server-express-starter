@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": "_YJJQpDud",
+      "name": "Ms. Edgar Botsford"
+    },
+    {
+      "id": "GenkmaM-BA",
+      "name": "Mrs. Roger Pagac"
+    }
+  ],
+  "books": [
+    {
+      "id": "WPvGLGshOZ",
+      "title": "Et quidem dignissimos",
+      "authorId": "_YJJQpDud"
+    },
+    {
+      "id": "VXIyuf9qzn",
+      "title": "Velit pariatur",
+      "authorId": "GenkmaM-BA"
+    }
+  ]
+}

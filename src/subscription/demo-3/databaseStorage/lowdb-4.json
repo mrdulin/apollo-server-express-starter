@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": "yDu6KJzjc",
+      "name": "Mrs. Earl Turcotte"
+    },
+    {
+      "id": "nO0S_dTSE-",
+      "name": "Ms. Elva Schiller"
+    }
+  ],
+  "books": [
+    {
+      "id": "FShhp3cvar",
+      "title": "Qui corporis quos",
+      "authorId": "yDu6KJzjc"
+    },
+    {
+      "id": "k-DoxC0Bab",
+      "title": "Optio rem quia",
+      "authorId": "nO0S_dTSE-"
+    }
+  ]
+}

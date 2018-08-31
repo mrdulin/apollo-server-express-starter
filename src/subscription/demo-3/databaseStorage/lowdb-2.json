@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": "odp6eL45_",
+      "name": "Miss Della Adams"
+    },
+    {
+      "id": "8aUjLxCgwS",
+      "name": "Ms. Hannah Pacocha"
+    }
+  ],
+  "books": [
+    {
+      "id": "TMVppQGGGZ",
+      "title": "Repellendus enim",
+      "authorId": "odp6eL45_"
+    },
+    {
+      "id": "liWdi4MgT2",
+      "title": "Rerum sed autem",
+      "authorId": "8aUjLxCgwS"
+    }
+  ]
+}

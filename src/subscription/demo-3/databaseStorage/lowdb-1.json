@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": "sBUTEAcB-",
+      "name": "Miss Veda Walker"
+    },
+    {
+      "id": "Zqc6ryyDLu",
+      "name": "Miss Franco Larkin"
+    }
+  ],
+  "books": [
+    {
+      "id": "O8-IaxZtrM",
+      "title": "Et non sint",
+      "authorId": "sBUTEAcB-"
+    },
+    {
+      "id": "qgnQYzZ0Lh",
+      "title": "Aperiam deleniti",
+      "authorId": "Zqc6ryyDLu"
+    }
+  ]
+}

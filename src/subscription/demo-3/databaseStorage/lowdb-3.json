@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": "4YQriUL6X",
+      "name": "Miss Ryann Klocko"
+    },
+    {
+      "id": "6BhdA8qt_x",
+      "name": "Mrs. Serenity Harvey"
+    }
+  ],
+  "books": [
+    {
+      "id": "KdBgzteyF8",
+      "title": "Minus soluta nihil",
+      "authorId": "4YQriUL6X"
+    },
+    {
+      "id": "p4W4Q7Ju9-",
+      "title": "Sunt asperiores amet",
+      "authorId": "6BhdA8qt_x"
+    }
+  ]
+}

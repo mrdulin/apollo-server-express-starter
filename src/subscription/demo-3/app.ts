@@ -14,11 +14,11 @@ import { resolvers } from './resolvers';
 import { createLowdb } from './db';
 
 const schema: GraphQLSchema = makeExecutableSchema({ typeDefs, resolvers });
-const { lowdb, authorId1, authorId2 } = createLowdb();
 
-function start() {
+async function start() {
   const app = express();
   const server = http.createServer(app);
+  const { lowdb, authorId1, authorId2 } = await createLowdb();
 
   server.listen(config.PORT, err => {
     if (err) {

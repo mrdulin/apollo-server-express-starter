@@ -27,6 +27,7 @@
     "@types/ioredis": "^3.2.15",
     "@types/lodash": "^4.14.116",
     "@types/lowdb": "^1.0.5",
+    "@types/mkdirp": "^0.5.2",
     "@types/mocha": "^5.2.5",
     "@types/morgan": "^1.7.35",
     "@types/request": "^2.47.1",
