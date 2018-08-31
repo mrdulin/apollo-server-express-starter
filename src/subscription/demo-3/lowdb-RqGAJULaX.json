@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": "UiU9XdqeBJ",
+      "name": "Mrs. Turner Mante"
+    },
+    {
+      "id": "T3fsBX8xNn",
+      "name": "Miss Leonie West"
+    }
+  ],
+  "books": [
+    {
+      "id": "8SueCMkDwO",
+      "title": "Eaque sint",
+      "authorId": "UiU9XdqeBJ"
+    },
+    {
+      "id": "xGtR8C28lR",
+      "title": "Libero dignissimos",
+      "authorId": "T3fsBX8xNn"
+    }
+  ]
+}

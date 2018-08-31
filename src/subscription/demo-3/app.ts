@@ -11,9 +11,10 @@ import { logger, toJson } from '../../utils';
 import { config } from '../../config';
 import { typeDefs } from './typeDefs';
 import { resolvers } from './resolvers';
-import { lowdb, authorId2, authorId1 } from './db';
+import { createLowdb } from './db';
 
 const schema: GraphQLSchema = makeExecutableSchema({ typeDefs, resolvers });
+const { lowdb, authorId1, authorId2 } = createLowdb();
 
 function start() {
   const app = express();

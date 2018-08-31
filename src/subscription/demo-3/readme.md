@@ -47,3 +47,9 @@ Reading messages... (press Ctrl-C to quit)
 ## GCP pub/sub
 
 开发测试：在当前终端`shell`配置好`GOOGLE_APPLICATION_CREDENTIALS`环境变量，用于认证，只有认证后才能调用`GCP pub/sub`的`api`
+
+## 参考
+
+https://github.com/axelspringer/graphql-google-pubsub/blob/master/src/google-pubsub.js
+
+https://github.com/axelspringer/graphql-google-pubsub

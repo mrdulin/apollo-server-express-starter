@@ -2,7 +2,7 @@ import { withFilter } from 'graphql-subscriptions';
 import { IResolvers } from 'graphql-tools';
 
 import { CHANNEL, SUBSCRIPTION } from './channel';
-import { logger, toJson } from '../../utils';
+import { logger } from '../../utils';
 import { pubsub } from './pubsubs/google';
 
 const resolvers: IResolvers = {
@@ -37,7 +37,6 @@ const resolvers: IResolvers = {
         });
         return book;
       }
-      return null;
     }
   },
   Subscription: {
