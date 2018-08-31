@@ -29,7 +29,7 @@ const resolvers: IResolvers = {
         .value();
 
       if (book) {
-        pubsub.publish(CHANNEL.LIN_TOPIC, {
+        pubsub.publish(CHANNEL.CAMPAIGN_TEMPLATE, {
           data: book,
           context: {
             user
@@ -52,7 +52,7 @@ const resolvers: IResolvers = {
       },
       subscribe: withFilter(
         (rootValue, args, context) => {
-          return pubsub.asyncIterator(CHANNEL.LIN_TOPIC);
+          return pubsub.asyncIterator(CHANNEL.CAMPAIGN_TEMPLATE);
         },
         (payload, variables, context) => {
           logger.info({ label: 'payload', msg: payload });

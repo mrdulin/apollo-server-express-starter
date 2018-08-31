@@ -7,6 +7,8 @@ async function getRemoteExecutableSchema(links) {
   const graphqlSchemas = await Promise.all(links.map(introspectSchema));
   // const schema = await introspectSchema(link);
 
+  // convert GraphqlSchema object to schema string;
+  // console.log('printSchema: ', printSchema(schema));
   const typeArray = graphqlSchemas.map(printSchema);
 
   const schema = mergeTypes(typeArray, { all: true });
@@ -17,8 +19,6 @@ async function getRemoteExecutableSchema(links) {
     console.log(err);
   }
 
-  // convert GraphqlSchema object to schema string;
-  // console.log('printSchema: ', printSchema(schema));
   const executableSchema = makeRemoteExecutableSchema({
     schema,
     // https://www.apollographql.com/docs/link/composition.html#directional

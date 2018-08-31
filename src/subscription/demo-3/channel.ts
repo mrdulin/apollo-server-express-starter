@@ -1,6 +1,7 @@
 const CHANNEL = {
   BOOK: 'BOOK',
-  LIN_TOPIC: 'lin-topic'
+  LIN_TOPIC: 'lin-topic',
+  CAMPAIGN_TEMPLATE: 'campaignTemplate'
 };
 
 const SUBSCRIPTION = {
