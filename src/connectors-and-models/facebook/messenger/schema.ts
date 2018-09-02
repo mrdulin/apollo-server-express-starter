@@ -1,9 +1,9 @@
-const schema = `
+const schema: string = `
   type MessageResponse {
     recipient_id: String!
     message_id: String!
   }
-  
+
   input Button {
     type: String!
     title: String!
@@ -13,7 +13,7 @@ const schema = `
     fallback_url: String
     webview_share_button: String
   }
-  
+
   input Element {
     title: String!
     subtitle: String
@@ -46,4 +46,4 @@ const schema = `
   }
 `;
 
-exports.schema = schema;
+export { schema };

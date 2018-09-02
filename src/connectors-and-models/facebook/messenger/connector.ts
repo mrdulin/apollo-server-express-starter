@@ -1,13 +1,15 @@
-const rp = require('request-promise');
+import rp from 'request-promise';
 
-const FACEBOOK_MESSENGER_API_ROOT = 'https://graph.facebook.com/v2.6/me/messages';
+const FACEBOOK_MESSENGER_API_ROOT: string = 'https://graph.facebook.com/v2.6/me/messages';
 
 class MessengerConnector {
+  public accessToken: string = '';
+
   constructor({ accessToken }) {
     this.accessToken = accessToken;
   }
 
-  post(template) {
+  public post(template) {
     return rp(`https://graph.facebook.com/v2.6/me/messages?access_token=${this.accessToken}`, {
       form: template,
       method: 'POST',
@@ -16,4 +18,4 @@ class MessengerConnector {
   }
 }
 
-module.exports = MessengerConnector;
+export { MessengerConnector };
