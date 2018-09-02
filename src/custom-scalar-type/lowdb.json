@@ -1,0 +1,16 @@
+{
+  "books": [
+    {
+      "id": "wh2wx9AT2",
+      "title": "Harry Potter and the Sorcerer's stone",
+      "author": "J.K. Rowling",
+      "updatedAt": "2018-08-31T16:00:00.000Z"
+    },
+    {
+      "id": "fR12ZtxsKk",
+      "title": "Jurassic Park",
+      "author": "Michael Crichton",
+      "updatedAt": "2018-07-31T16:00:00.000Z"
+    }
+  ]
+}
