@@ -41,8 +41,8 @@ const typeDefs: string = `
 
 const resolvers: IResolvers = {
   Query: {
-    books: () => books,
-    bookById: (root, args) => books.find(book => book.id === args.id)
+    books: (): IBook[] => books,
+    bookById: (root, args): IBook | undefined => books.find((book: IBook): boolean => book.id === args.id)
   }
 };
 
