@@ -2,13 +2,18 @@
   "books": [
     {
       "id": "1",
-      "title": "Harry Potter and the Sorcerer's stone",
-      "author": "J.K. Rowling"
+      "title": "Voluptas distinctio",
+      "author": "Dr. Chasity Buckridge"
     },
     {
       "id": "2",
       "title": "Jurassic Park",
       "author": "Michael Crichton"
+    },
+    {
+      "title": "angular",
+      "author": "mrdulin",
+      "id": "ocKLu7h04"
     }
   ]
 }

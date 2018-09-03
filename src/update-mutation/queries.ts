@@ -1,4 +1,4 @@
-exports.BOOKS = `
+const BOOKS: string = `
   query {
     books{
       id
@@ -7,3 +7,5 @@ exports.BOOKS = `
     }
   }
 `;
+
+export { BOOKS };

@@ -1,10 +1,10 @@
-function generateGraphQLTypes(typeName, schema) {
-  const typeDefsFragment = (required = '') =>
+function generateGraphQLTypes(typeName: string, schema: { [key: string]: string }): string {
+  const typeDefsFragment = (required = ''): string =>
     Object.keys(schema)
-      .map(name => `\n  ${name}: ${schema[name]}${required}`)
+      .map((name: string) => `\n  ${name}: ${schema[name]}${required}`)
       .join(',');
 
-  const types = `
+  const types: string = `
     input ${typeName}CreateInput {
       ${typeDefsFragment('!')}
     }
@@ -22,7 +22,7 @@ function generateGraphQLTypes(typeName, schema) {
   return types;
 }
 
-const typesString = generateGraphQLTypes('Book', {
+const typesString: string = generateGraphQLTypes('Book', {
   title: 'String',
   author: 'String'
 });
@@ -40,4 +40,4 @@ const typeDefs = `
   }
 `;
 
-exports.typeDefs = typeDefs;
+export { typeDefs };

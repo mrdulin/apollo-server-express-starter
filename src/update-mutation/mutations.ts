@@ -1,4 +1,4 @@
-exports.ADD = `
+const ADD: string = `
   mutation addBook($book: BookCreateInput!) {
     add (book: $book){
       id
@@ -8,7 +8,7 @@ exports.ADD = `
   }
 `;
 
-exports.UPDATE = `
+const UPDATE: string = `
   mutation updateBook($book: BookUpdateInput!) {
     update(book: $book) {
       id
@@ -17,3 +17,5 @@ exports.UPDATE = `
     }
   }
 `;
+
+export { ADD, UPDATE };
