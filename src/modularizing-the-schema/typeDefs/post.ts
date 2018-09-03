@@ -1,4 +1,4 @@
-const Post = `
+const Post: string = `
   type Post {
     id: ID!
     title: String
@@ -8,4 +8,4 @@ const Post = `
   }
 `;
 
-module.exports = Post;
+export { Post };

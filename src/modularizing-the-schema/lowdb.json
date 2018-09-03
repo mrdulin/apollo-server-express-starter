@@ -1,0 +1,27 @@
+{
+  "posts": [
+    {
+      "id": "h1__rnmIV",
+      "title": "Numquam occaecati provident",
+      "content": "Architecto est occaecati corporis voluptatibus autem hic. Maiores dolor eum. Neque reiciendis cum veritatis est cumque et inventore.",
+      "views": 5775
+    },
+    {
+      "id": "fPMM2q0jZ-",
+      "title": "Vel impedit vel",
+      "content": "Aliquid unde aut consequatur necessitatibus autem velit magnam voluptate illum. Praesentium incidunt quidem veritatis nam iusto quia quas quia id. Quam enim id laudantium officia ipsam omnis aliquam ullam.",
+      "views": 7561
+    }
+  ],
+  "authors": [
+    {
+      "id": "bba30fb1-bb8d-4cac-91bf-3c4b6dcc6628",
+      "firstName": "Eugenia",
+      "lastName": "Schaefer",
+      "postIds": [
+        "h1__rnmIV",
+        "fPMM2q0jZ-"
+      ]
+    }
+  ]
+}

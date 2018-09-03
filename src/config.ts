@@ -9,6 +9,11 @@ interface IOptions {
   REDIS_HOST: string;
   REDIS_PORT: number;
 }
+
+interface IApolloEngine {
+  apiKey: string;
+}
+
 const config: IOptions = {
   HOST: process.env.HOST || 'localhost',
   PORT: process.env.PORT || 4000,

@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
 const FortuneCookie = {
   getOne() {
@@ -10,6 +10,4 @@ const FortuneCookie = {
   }
 };
 
-module.exports = {
-  FortuneCookie
-};
+export { FortuneCookie };
