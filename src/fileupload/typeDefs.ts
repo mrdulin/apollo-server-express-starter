@@ -1,4 +1,4 @@
-const typeDefs = `
+const typeDefs: string = `
   scalar Upload
 
   type File {
@@ -16,4 +16,4 @@ const typeDefs = `
   }
 `;
 
-exports.typeDefs = typeDefs;
+export { typeDefs };
