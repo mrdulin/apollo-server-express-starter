@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "id": "YYw0gSzpB",
+      "name": "Ms. Carissa Johns",
+      "friends": [
+        "8pCRv9f8vP"
+      ]
+    },
+    {
+      "id": "8pCRv9f8vP",
+      "name": "Mrs. Geovany Rempel",
+      "friends": [
+        "YYw0gSzpB"
+      ]
+    }
+  ]
+}
