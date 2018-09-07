@@ -66,4 +66,14 @@ function toJson(obj) {
   }
 }
 
-export { request, logger, getRandomInt, intersection, toJson };
+function log(err: any) {
+  let msg: string;
+  if (err instanceof Error) {
+    msg = err.message;
+  } else {
+    msg = err;
+  }
+  logger.error(msg);
+}
+
+export { request, logger, log, getRandomInt, intersection, toJson };

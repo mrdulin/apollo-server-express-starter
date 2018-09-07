@@ -8,17 +8,19 @@ import http from 'http';
 
 import { resolvers } from './resolvers';
 import { typeDefs } from './typeDefs';
-import { logger } from '../utils';
+import { logger, log } from '../utils';
 import { config } from '../config';
-import { DeprecatedDirective, UppercaseDirective } from './directives';
+import { DeprecatedDirective, UppercaseDirective, AuthDirective } from './directives';
 import { db } from './db';
 
 const schema: GraphQLSchema = makeExecutableSchema({
   typeDefs,
   resolvers,
+  logger: { log },
   schemaDirectives: {
     deprecated: DeprecatedDirective,
-    uppercase: UppercaseDirective
+    uppercase: UppercaseDirective,
+    auth: AuthDirective
   }
 });
 
@@ -28,9 +30,14 @@ async function start(): Promise<http.Server> {
   app.use(
     config.GRAPHQL_ROUTE,
     bodyParser.json(),
-    graphqlExpress({
-      schema,
-      context: { db }
+    graphqlExpress((req: any) => {
+      return {
+        schema,
+        context: {
+          db,
+          user: db.users[0]
+        }
+      };
     })
   );
   app.use(config.GRAPHIQL_ROUTE, graphiqlExpress({ endpointURL: config.GRAPHQL_ROUTE }));

@@ -9,18 +9,8 @@ import { GraphQLOptions } from 'apollo-server-core';
 import { resolvers } from './resolvers';
 import { typeDefs } from './typeDefs';
 import { config } from '../config';
-import { logger } from '../utils';
+import { logger, log } from '../utils';
 import { Book } from './models';
-
-function log(err: any) {
-  let msg: string;
-  if (err instanceof Error) {
-    msg = err.message;
-  } else {
-    msg = err;
-  }
-  logger.error(msg);
-}
 
 const schema: GraphQLSchema = makeExecutableSchema({ typeDefs, resolvers, logger: { log } });
 

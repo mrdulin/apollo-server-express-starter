@@ -12,6 +12,9 @@ const resolvers: IResolvers = {
     },
     bookByStatus: (_, { status }, { db }) => {
       return db.books.filter(book => book.status === status);
+    },
+    user: (_, { id }, { db }) => {
+      return db.users.find(user => user.id === id);
     }
   }
 };
