@@ -64,4 +64,8 @@ async function start(): Promise<http.Server> {
   });
 }
 
+if (process.env.NODE_ENV !== 'test') {
+  start();
+}
+
 export { start, schema, resolvers, IBook, books };
