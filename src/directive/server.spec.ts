@@ -172,5 +172,29 @@ describe('graphql built-in directives test suites', () => {
         expect(data.bookById).to.have.property('author');
       });
     });
+
+    it('should return null when query book.name', async () => {
+      const query: string = `
+        query {
+          books {
+            name
+          }
+        }
+      `;
+
+      const actualValue: ExecutionResult<Array<{ name: null }>> = await graphql<Array<{ name: null }>>({
+        schema,
+        rootValue: resolvers,
+        source: query
+      });
+
+      const expectValue: ExecutionResult<{ books: Array<{ name: null }> }> = {
+        data: {
+          books: [{ name: null }, { name: null }]
+        }
+      };
+
+      expect(actualValue).to.be.deep.equal(expectValue);
+    });
   });
 });
