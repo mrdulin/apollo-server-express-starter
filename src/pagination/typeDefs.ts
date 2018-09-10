@@ -1,24 +1,24 @@
-const typeDefs = `
+const typeDefs: string = `
   type Book {
     _id: ID!
     title: String!
     author: String!
   }
 
-  type PageInfo{
+  type PageInfo {
     startCursor: String
     endCursor: String
-    hasPrevPage: Boolean!
+    hasPreviousPage: Boolean!
     hasNextPage: Boolean!
   }
 
   type OffsetBasedPaginationResponse {
-    datas: [Book!]!
+    docs: [Book!]!
     total: Int!
   }
 
   type CursorBasedPaginationResponse {
-    datas: [Book!]!
+    docs: [Book!]!
     cursor: String!
   }
 
@@ -30,14 +30,13 @@ const typeDefs = `
   type RelayCursorBasedPaginationResponse{
     edges: [BookEdge]
     pageInfo: PageInfo!
-    total: Int!
   }
 
   type Query {
     booksByOffset(offset: Int!, limit: Int = 10): OffsetBasedPaginationResponse
     booksByCursor(cursor: String, limit: Int = 10): CursorBasedPaginationResponse
-    booksByRelayStyleCursor(first: Int, after: String): RelayCursorBasedPaginationResponse
+    booksByRelayStyleCursor(before: String, after: String, first: Int, last: Int): RelayCursorBasedPaginationResponse
   }
 `;
 
-exports.typeDefs = typeDefs;
+export { typeDefs };

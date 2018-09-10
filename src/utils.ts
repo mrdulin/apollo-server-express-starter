@@ -76,4 +76,14 @@ function log(err: any) {
   logger.error(msg);
 }
 
-export { request, logger, log, getRandomInt, intersection, toJson };
+type Base64String = string;
+
+function base64(i: string): Base64String {
+  return Buffer.from(i, 'utf8').toString('base64');
+}
+
+function unbase64(i: Base64String): string {
+  return Buffer.from(i, 'base64').toString('utf8');
+}
+
+export { request, logger, log, getRandomInt, intersection, toJson, base64, unbase64, Base64String };

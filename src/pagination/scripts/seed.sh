@@ -1,1 +1,1 @@
-node ./connector/mongodb/initilize.js
+node -r ts-node/register ./connector/mongodb/seed.ts

@@ -9,6 +9,9 @@ interface IOptions {
   WEBSOCKET_ENDPOINT: string;
   REDIS_HOST: string;
   REDIS_PORT: number;
+  MONGO_HOST: string;
+  MONGO_PORT: string | number;
+  MONGO_DB_NAME: string;
 }
 
 const config: IOptions = {
@@ -21,7 +24,10 @@ const config: IOptions = {
   WEBSOCKET_ROUTE: '/subscriptions',
   WEBSOCKET_ENDPOINT: '',
   REDIS_HOST: '127.0.0.1',
-  REDIS_PORT: 6379
+  REDIS_PORT: 6379,
+  MONGO_HOST: process.env.MONGO_HOST || 'localhost',
+  MONGO_PORT: process.env.MONGO_PORT || 27017,
+  MONGO_DB_NAME: process.env.MONGO_DB_NAME || 'apollo-server-express-starter'
 };
 
 config.GRAPHQL_ENDPOINT = `http://${config.HOST}:${config.PORT}${config.GRAPHQL_ROUTE}`;
