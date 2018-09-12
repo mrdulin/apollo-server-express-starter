@@ -1,6 +1,6 @@
 import { IMocks } from 'graphql-tools';
 
-import { lowdb as db } from './db';
+import { lowdb as db } from '../db';
 import { logger } from '../../utils';
 
 const mocks: IMocks = {

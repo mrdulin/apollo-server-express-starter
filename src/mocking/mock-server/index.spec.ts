@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import { typeDefs } from '../typeDefs';
 import { mocks } from './mocks';
-import { lowdb as db, authorId1, authorId2 } from './db';
+import { lowdb as db, authorId1, authorId2 } from '../db';
 import { IUserModel, IUser } from '../interfaces';
 import { logger } from '../../utils';
 

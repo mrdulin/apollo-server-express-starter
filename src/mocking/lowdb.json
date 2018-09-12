@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "id": "tDfRPGFIT",
+      "name": "Dr. Emmett Gottlieb",
+      "friends": [
+        "YXyJhc5evl"
+      ]
+    },
+    {
+      "id": "YXyJhc5evl",
+      "name": "Ms. Eva Robel",
+      "friends": [
+        "tDfRPGFIT"
+      ]
+    }
+  ]
+}

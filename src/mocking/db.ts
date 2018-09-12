@@ -3,7 +3,7 @@ import FileSync from 'lowdb/adapters/FileSync';
 import path from 'path';
 import shortid from 'shortid';
 import casual from 'casual';
-import { IUserModel } from '../interfaces';
+import { IUserModel } from './interfaces';
 
 const adapter = new FileSync(path.resolve(__dirname, './lowdb.json'));
 const lowdb = low(adapter);
