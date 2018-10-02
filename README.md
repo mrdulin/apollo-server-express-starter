@@ -23,3 +23,10 @@ This project introduces the important concepts and usage of `GraphQL` and `apoll
 - `npm i` to install dependencies
 - If you use vscode, select `typescript` version to local version
 - Take a look at `.vscode/launch.json` file, you will find how to launch program for each sample
+
+## References
+
+- https://www.apollographql.com/docs/graphql-tools/schema-transforms.html
+- https://blog.apollographql.com/graphql-at-facebook-by-dan-schafer-38d65ef075af
+- https://github.com/apollographql/GitHunt-API
+- https://www.youtube.com/watch?v=XOM8J4LaYFg
