@@ -1,9 +1,9 @@
 # apollo-server-express-starter
 
+This project introduces the important concepts and usage of `GraphQL` and `apollo`, as well as some typical issues such as `pagination` and `N+1 query`.
+
 ## Usage
 
-1. `npm i`
-
-2. If you use vscode, select `typescript` version to local version
-
-3. take a look about `.vscode/launch.json`, you will find how to launch program of each sample
+- `npm i` to install dependencies
+- If you use vscode, select `typescript` version to local version
+- Take a look at `.vscode/launch.json` file, you will find how to launch program for each sample
