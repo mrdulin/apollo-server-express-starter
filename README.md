@@ -7,16 +7,16 @@ This project introduces the important concepts and usage of `GraphQL` and `apoll
 - N+1 查询优化
 - graphql-subscription
   - 多用户消息频道
-  - 多nodejs server instances下通过GCP pub/sub进行消息通讯
-  - websocket安全链接，基于jwt的用户认证
+  - 多`nodejs server instances`下通过`GCP pub/sub`进行消息通讯
+  - `websocket`安全链接，基于`jwt`的用户认证
 - 文件上传
-- 内置directive，自定义directive
+- 内置`directive`，自定义`directive`
 - 批量查询
-- 自定义scalar类型
+- 自定义`scalar`类型
 - 分页
 ...
 
-这些例子涵盖了graphql, apollo-server最常用，最重要的功能。欢迎交流。
+这些例子涵盖了`GraphQL`, `apollo-server`最常用，最重要的功能，欢迎交流。
 
 ## Usage
 
