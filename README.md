@@ -14,7 +14,7 @@ This project introduces the important concepts and usage of `GraphQL` and `apoll
 - 批量查询
 - 自定义`scalar`类型
 - 分页
-...
+  ...
 
 这些例子涵盖了`GraphQL`, `apollo-server`最常用，最重要的功能，欢迎交流。
 
