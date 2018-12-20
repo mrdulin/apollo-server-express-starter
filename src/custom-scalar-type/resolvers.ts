@@ -1,5 +1,7 @@
 import { IResolvers } from 'graphql-tools';
 import { GraphQLScalarType, Kind } from 'graphql';
+import GraphQLJSON from 'graphql-type-json';
+
 import { logger } from '../utils';
 
 const resolvers: IResolvers = {

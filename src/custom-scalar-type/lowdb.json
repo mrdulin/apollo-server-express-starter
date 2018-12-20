@@ -1,16 +1,39 @@
 {
   "books": [
     {
-      "id": "wh2wx9AT2",
+      "id": "qvj4qkJ-V",
       "title": "Harry Potter and the Sorcerer's stone",
       "author": "J.K. Rowling",
-      "updatedAt": "2018-08-31T16:00:00.000Z"
+      "updatedAt": "2018-08-31T16:00:00.000Z",
+      "websites": "[{\"url\":\"http://Crist.info/\",\"description\":\"Illo tempora placeat et inventore eveniet. Aperiam atque odio quia soluta ab et repellendus voluptatem. Sit totam ad.\"},{\"url\":\"http://www.Swift.biz/\",\"description\":\"Ea facilis debitis quaerat aspernatur doloremque asperiores. Placeat eius atque error. Vero ab magnam maxime natus eaque fugit nostrum nihil. Sint eius maiores sed odit vel autem doloribus ut. Error illum distinctio debitis ut ut enim eius.\"}]",
+      "websitesV2": [
+        {
+          "url": "http://Jovani.biz/",
+          "description": "Qui odio quisquam explicabo quos vel quaerat rem quibusdam. Architecto esse enim aliquid beatae nisi nostrum atque debitis. Ut nesciunt aut officiis amet voluptas omnis eveniet est."
+        },
+        {
+          "url": "http://www.Christiansen.io/",
+          "description": "Sequi nihil qui voluptatem ea non sint sit velit. Sed unde perspiciatis illum explicabo consectetur ut facilis. Nostrum aliquid et omnis tempore commodi quia fugiat quidem."
+        }
+      ]
     },
     {
-      "id": "fR12ZtxsKk",
+      "id": "WPSSz2nkZX",
       "title": "Jurassic Park",
       "author": "Michael Crichton",
-      "updatedAt": "2018-07-31T16:00:00.000Z"
+      "updatedAt": "2018-07-31T16:00:00.000Z",
+      "websites": [
+        {
+          "url": "http://www.Harrison.org/",
+          "description": "Quia officia commodi qui. Illum alias sunt deserunt voluptatem et est. Quam totam fugit eius deserunt provident harum aliquam totam qui."
+        }
+      ],
+      "websitesV2": [
+        {
+          "url": "http://Louie.tv/",
+          "description": "Accusamus ipsam expedita sunt. Officia natus aut praesentium velit delectus ut adipisci id qui. Expedita rerum eos perferendis adipisci accusamus atque aut unde. Voluptatibus aperiam aliquam est."
+        }
+      ]
     }
   ]
 }

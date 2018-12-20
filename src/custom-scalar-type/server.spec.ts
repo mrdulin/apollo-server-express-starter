@@ -99,4 +99,52 @@ describe('custom-scalar-type sample test suites', () => {
     const actualValue = await rp.get(body).then(res => res.data.booksByDate);
     expect(actualValue).to.have.lengthOf(1);
   });
+
+  it('should get json data correctly', async () => {
+    const body = {
+      query: `
+        query {
+          books {
+            id
+            title
+            author
+            updatedAt
+            websites
+          }
+        }
+      `
+    };
+
+    const actualValue = await rp.post(body).then(res => res.data.books);
+    expect(actualValue[0].websites).to.be.a('string');
+    expect(JSON.parse(actualValue[0].websites)).to.be.an('array');
+    expect(actualValue[1].websites).to.be.an('array');
+  });
+
+  it('should throw an error when there are subfields at json scalar type', async () => {
+    const body = {
+      query: `
+        query {
+          books {
+            id
+            title
+            author
+            updatedAt
+            websites {
+              url
+              description
+            }
+          }
+        }
+      `
+    };
+
+    try {
+      await rp.post(body);
+    } catch (error) {
+      expect(error.message).to.match(
+        /Field \\"websites\\" must not have a selection since type \\"JSON\\" has no subfields./
+      );
+    }
+  });
 });
