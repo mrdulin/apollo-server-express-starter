@@ -30,3 +30,7 @@ This project introduces the important concepts and usage of `GraphQL` and `apoll
 - https://blog.apollographql.com/graphql-at-facebook-by-dan-schafer-38d65ef075af
 - https://github.com/apollographql/GitHunt-API
 - https://www.youtube.com/watch?v=XOM8J4LaYFg
+
+---
+
+<a href="https://info.flagcounter.com/ab0j"><img src="https://s11.flagcounter.com/count2/ab0j/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
