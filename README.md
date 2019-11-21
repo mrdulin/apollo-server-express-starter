@@ -2,6 +2,8 @@
 
 This project introduces the important concepts and usage of `GraphQL` and `apollo`, as well as some typical issues such as `pagination` and `N+1 query`.
 
+If you are looking for tutorial for apollographql 2.x, please see this [repo](https://github.com/mrdulin/apollo-graphql-tutorial)
+
 这个项目介绍了`GraphQL`和`apollo`的重要概念和用法, 包含一些典型例子：
 
 - N+1 查询优化
